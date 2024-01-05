@@ -1,7 +1,6 @@
-import axios from "axios";
 import { Formik, Form, Field } from "formik";
 import * as Yup from 'yup'
-import { ERROR_CODE_DUP_MEMBER, ERROR_MESSAGE_DUP_MEMBER, JOIN_MEMBER_API } from "../components/api";
+import { registerMember } from "../common/api/userApi";
 
 function Join() {
     const JoinSchema = Yup.object().shape({
@@ -16,28 +15,8 @@ function Join() {
         .oneOf([Yup.ref('memberPassword'), null], '비밀번호와 동일한 값을 입력해 주세요')
     })
 
-    const submitHandler = (values, actions) => {
-        const formData = new FormData();
-
-        Object.entries(values).map(([key, value]) => {
-            formData.append(key, value);
-        })
-
-        axios.post(JOIN_MEMBER_API, formData, {
-            headers: {
-                "Content-Type": "multipart/form-data",
-            }
-        })
-        .then((response) => {
-            alert('회원가입 완료!');
-        })
-        .catch((error) => {
-            let response = error.response;
-            if(response.data.header.code === ERROR_CODE_DUP_MEMBER) {
-                actions.setFieldError("memberName", ERROR_MESSAGE_DUP_MEMBER);
-            }
-            actions.setSubmitting(false);
-        })
+    const submitHandler = async (values, actions) => {
+        registerMember(values, actions);
     }
 
     return (
@@ -49,12 +28,12 @@ function Join() {
                     memberNickName:'',
                     memberPassword:'',
                     memberPasswordVal:'',
-                    memberThumbnailFile: undefined
+                    memberThumbnailFile: null
                 }}
                 validationSchema={JoinSchema}
                 onSubmit={submitHandler}
             >
-                {({errors, touched, isValid, dirty, isSubmitting, setFieldValue}) => (
+                {({errors, touched, isValid, dirty, setFieldValue}) => (
                     <Form>
                         <div>
                             <label htmlFor="memberName">아이디</label>
