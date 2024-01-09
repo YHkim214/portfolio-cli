@@ -1,11 +1,36 @@
 import { Field, Formik, Form } from "formik";
 import * as Yup from 'yup';
-import { login } from "../common/api/userApi";
+import { useContext } from "react";
+import { MemberContext } from "../contexts/MemberContext";
+import { useNavigate } from "react-router-dom";
+import { AxiosError } from "axios";
 
 function Login() {
 
-    const handleSubmit = async (values, actions) => {
-        login(values);
+    const memberContext = useContext(MemberContext);
+    const navigate = useNavigate();
+
+    const handleSubmit = (values, actions) => {
+        memberContext.login(values)
+        .then((response) => {
+            alert('로그인 성공!');
+            return memberContext.getMemberInfo();
+        })
+        .then((response) => {
+            if(response instanceof AxiosError) {
+                if(response.response.status === 401) {
+                    alert('로그인이 만료되었습니다. 다시 로그인 해주세요');
+                    memberContext.logout();
+                    navigate('/login');
+                }
+            } else {
+                navigate('/');
+            }
+        })
+        .catch((error) => {
+            alert('로그인 실패!');
+            actions.setSubmitting(false);
+        })
     };
 
     const LoginSchema = Yup.object().shape({

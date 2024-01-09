@@ -1,8 +1,14 @@
 import { Formik, Form, Field } from "formik";
 import * as Yup from 'yup'
-import { registerMember } from "../common/api/userApi";
+import { useContext } from "react";
+import { MemberContext } from "../contexts/MemberContext";
+import { ERROR_CODE_DUP_MEMBER, ERROR_MESSAGE_DUP_MEMBER } from "../common/constants/api";
+import { useNavigate } from "react-router-dom";
 
 function Join() {
+    const memberContext = useContext(MemberContext);
+    const navigate = useNavigate();
+
     const JoinSchema = Yup.object().shape({
         memberName: Yup.string()
         .required('아이디를 입력해 주세요!'),
@@ -16,7 +22,18 @@ function Join() {
     })
 
     const submitHandler = async (values, actions) => {
-        registerMember(values, actions);
+        memberContext.register(values)
+        .then((response) => {
+            alert('회원가입 완료!');
+            navigate('/login');
+        })
+        .catch((error) => {
+            let response = error.response;
+            if(response.data.header.code === ERROR_CODE_DUP_MEMBER) {
+                actions.setFieldError('memberName', ERROR_MESSAGE_DUP_MEMBER);
+            }
+            actions.setSubmitting(false);
+        })
     }
 
     return (
