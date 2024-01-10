@@ -1,7 +1,6 @@
 import { createContext, useState } from "react";
 import axios from "axios";
-import { JOIN_MEMBER_API, LOGIN_MEMBER_API, GET_MEMBER_INFO_API } from "../common/constants/api";
-import { useNavigate } from "react-router-dom";
+import { JOIN_MEMBER_API, LOGIN_MEMBER_API, GET_MEMBER_INFO_API, REFRESH_API } from "../common/constants/api";
 
 export const MemberContext = createContext({
     isLoggedIn: false,
@@ -14,7 +13,8 @@ export const MemberContext = createContext({
     register: (values) => {},
     login: (values) => {},
     logout: () => {},
-    getMemberInfo: () => {}
+    getMemberInfo: () => {},
+    refresh: () => {}
 });
 
 export const MemberContextProvider = ({children}) => {
@@ -58,6 +58,7 @@ export const MemberContextProvider = ({children}) => {
                 localStorage.clear();
                 localStorage.setItem('tokenType', response.data.data.tokenType);
                 localStorage.setItem('accessToken', response.data.data.accessToken);
+                localStorage.setItem('refreshToken', response.data.data.refreshToken);
 
                 setIsLoggedIn(true);
 
@@ -73,6 +74,7 @@ export const MemberContextProvider = ({children}) => {
     const logoutHandler = () => {
         localStorage.removeItem('accessToken');
         localStorage.removeItem('tokenType');
+        localStorage.removeItem('refreshToken');
 
         setMemberInfo({});
         setIsLoggedIn(false);
@@ -81,10 +83,12 @@ export const MemberContextProvider = ({children}) => {
     const getMemberInfoHandler = async() => {
         let accessToken = localStorage.getItem('accessToken');
         let tokenType = localStorage.getItem('tokenType');
+        let refreshToken = localStorage.getItem('refreshToken');
 
         const result = await axios.get(GET_MEMBER_INFO_API, {
             headers: {
-                'Authorization': `${tokenType} ${accessToken}`
+                'Authorization': `${tokenType} ${accessToken}`,
+                'Refresh-Token': `${tokenType} ${refreshToken}`
             }
         })
         .then((response) => {
@@ -105,13 +109,37 @@ export const MemberContextProvider = ({children}) => {
         return result;
     }
 
+    const refreshHandler = async () => {
+        let accessToken = localStorage.getItem('accessToken');
+        let refreshToken = localStorage.getItem('refreshToken');
+
+        const result = await axios.post(REFRESH_API, {
+                'oldAccessToken': accessToken,
+                'refreshToken': refreshToken
+            }
+        )
+        .then((response) => {
+            let data = response.data.data;
+            
+            localStorage.setItem('accessToken', data.newAccessToken);
+
+            return response;
+        })
+        .catch((error) => {
+            return error;
+        })
+
+        return result;
+    }
+
     const contextValue = {
         isLoggedIn,
         memberInfo,
         register: registerHandler,
         login: loginHandler,
         logout: logoutHandler,
-        getMemberInfo: getMemberInfoHandler
+        getMemberInfo: getMemberInfoHandler,
+        refresh: refreshHandler
     }
 
     return(
@@ -121,3 +149,4 @@ export const MemberContextProvider = ({children}) => {
     )
 
 }
+
