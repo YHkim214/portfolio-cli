@@ -1,6 +1,6 @@
 import { createContext, useState } from "react";
-import axios from "axios";
 import { JOIN_MEMBER_API, LOGIN_MEMBER_API, GET_MEMBER_INFO_API, REFRESH_API } from "../common/constants/api";
+import axiosWrapper from "../common/config/axiosConfig";
 
 export const MemberContext = createContext({
     isLoggedIn: false,
@@ -13,8 +13,7 @@ export const MemberContext = createContext({
     register: (values) => {},
     login: (values) => {},
     logout: () => {},
-    getMemberInfo: () => {},
-    refresh: () => {}
+    getMemberInfo: () => {}
 });
 
 export const MemberContextProvider = ({children}) => {
@@ -36,7 +35,7 @@ export const MemberContextProvider = ({children}) => {
                 }
             })
     
-            axios.post(JOIN_MEMBER_API, formData, {
+            axiosWrapper.post(JOIN_MEMBER_API, formData, {
                 headers: {
                     "Content-Type": "multipart/form-data",
                 }
@@ -53,8 +52,9 @@ export const MemberContextProvider = ({children}) => {
 
     const loginHandler = (values) => {
         const promise = new Promise((resolve, reject) => {
-            axios.post(LOGIN_MEMBER_API, values)
+            axiosWrapper.post(LOGIN_MEMBER_API, values)
             .then((response) => {
+                console.log(11);
                 localStorage.clear();
                 localStorage.setItem('tokenType', response.data.data.tokenType);
                 localStorage.setItem('accessToken', response.data.data.accessToken);
@@ -85,7 +85,7 @@ export const MemberContextProvider = ({children}) => {
         let tokenType = localStorage.getItem('tokenType');
         let refreshToken = localStorage.getItem('refreshToken');
 
-        const result = await axios.get(GET_MEMBER_INFO_API, {
+        const result = await axiosWrapper.get(GET_MEMBER_INFO_API, {
             headers: {
                 'Authorization': `${tokenType} ${accessToken}`,
                 'Refresh-Token': `${tokenType} ${refreshToken}`
@@ -109,37 +109,13 @@ export const MemberContextProvider = ({children}) => {
         return result;
     }
 
-    const refreshHandler = async () => {
-        let accessToken = localStorage.getItem('accessToken');
-        let refreshToken = localStorage.getItem('refreshToken');
-
-        const result = await axios.post(REFRESH_API, {
-                'oldAccessToken': accessToken,
-                'refreshToken': refreshToken
-            }
-        )
-        .then((response) => {
-            let data = response.data.data;
-            
-            localStorage.setItem('accessToken', data.newAccessToken);
-
-            return response;
-        })
-        .catch((error) => {
-            return error;
-        })
-
-        return result;
-    }
-
     const contextValue = {
         isLoggedIn,
         memberInfo,
         register: registerHandler,
         login: loginHandler,
         logout: logoutHandler,
-        getMemberInfo: getMemberInfoHandler,
-        refresh: refreshHandler
+        getMemberInfo: getMemberInfoHandler
     }
 
     return(
