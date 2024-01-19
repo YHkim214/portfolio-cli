@@ -5,7 +5,7 @@ import { MemberContext } from "../contexts/MemberContext";
 import { ERROR_CODE_DUP_MEMBER, ERROR_MESSAGE_DUP_MEMBER } from "../common/constants/api";
 import { useNavigate } from "react-router-dom";
 
-function Join() {
+function JoinPage() {
     const memberContext = useContext(MemberContext);
     const navigate = useNavigate();
 
@@ -88,4 +88,4 @@ function Join() {
     );
 }
 
-export default Join;
+export default JoinPage;

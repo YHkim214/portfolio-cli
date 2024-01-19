@@ -1,11 +1,11 @@
 import { useContext } from "react";
 import { MemberContext } from "../contexts/MemberContext";
 
-function Home() {
+function HomePage() {
     const memberContext = useContext(MemberContext);
 
     const onClickHandler = async() => {
-        const response = await memberContext.getMemberInfo();
+        const response = memberContext.getMemberInfo();
         console.log(response);
     }
 
@@ -17,4 +17,4 @@ function Home() {
     );
 }
 
-export default Home;
+export default HomePage;

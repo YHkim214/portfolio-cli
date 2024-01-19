@@ -1,5 +1,5 @@
 import { createContext, useState } from "react";
-import { JOIN_MEMBER_API, LOGIN_MEMBER_API, GET_MEMBER_INFO_API, REFRESH_API } from "../common/constants/api";
+import { JOIN_MEMBER_API, LOGIN_MEMBER_API, GET_MEMBER_INFO_API,} from "../common/constants/api";
 import axiosWrapper from "../common/config/axiosConfig";
 
 export const MemberContext = createContext({
@@ -26,49 +26,42 @@ export const MemberContextProvider = ({children}) => {
     });
 
     const registerHandler = async (values) => {
-        const promise = new Promise((resolve, reject) => {
-            const formData = new FormData();
+        const formData = new FormData();
     
-            Object.entries(values).map(([key, value]) => {
-                if(value) {
-                    formData.append(key, value);
-                }
-            })
-    
-            axiosWrapper.post(JOIN_MEMBER_API, formData, {
-                headers: {
-                    "Content-Type": "multipart/form-data",
-                }
-            })
-            .then((response) => {
-                resolve(response);
-            })
-            .catch((error) => {
-                reject(error);
-            })
+        Object.entries(values).forEach(([key, value]) => {
+            if(value) {
+                formData.append(key, value);
+            }
         })
-        return promise;
+
+        const result = await axiosWrapper.post(JOIN_MEMBER_API, formData, {
+            headers: {
+                "Content-Type": "multipart/form-data",
+            }
+        })
+        .then(response => response)
+        .catch(error => error);
+
+        return result;
     }
 
-    const loginHandler = (values) => {
-        const promise = new Promise((resolve, reject) => {
-            axiosWrapper.post(LOGIN_MEMBER_API, values)
-            .then((response) => {
-                console.log(11);
-                localStorage.clear();
-                localStorage.setItem('tokenType', response.data.data.tokenType);
-                localStorage.setItem('accessToken', response.data.data.accessToken);
-                localStorage.setItem('refreshToken', response.data.data.refreshToken);
+    const loginHandler = async (values) => {
 
-                setIsLoggedIn(true);
+        const result = await axiosWrapper.post(LOGIN_MEMBER_API, values)
+        .then((response) => {
+            console.log(11);
+            localStorage.clear();
+            localStorage.setItem('tokenType', response.data.data.tokenType);
+            localStorage.setItem('accessToken', response.data.data.accessToken);
+            localStorage.setItem('refreshToken', response.data.data.refreshToken);
 
-                resolve(response);
-            })
-            .catch((error) => {
-                reject(error);
-            })
+            setIsLoggedIn(true);
+
+            return response;
         })
-        return promise;
+        .catch(error => error)
+
+        return result;
     }
 
     const logoutHandler = () => {

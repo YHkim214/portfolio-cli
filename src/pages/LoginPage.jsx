@@ -4,7 +4,7 @@ import { useContext } from "react";
 import { MemberContext } from "../contexts/MemberContext";
 import { useNavigate } from "react-router-dom";
 
-function Login() {
+function LoginPage() {
 
     const memberContext = useContext(MemberContext);
     const navigate = useNavigate();
@@ -62,4 +62,4 @@ function Login() {
     )
 }
 
-export default Login
+export default LoginPage;
