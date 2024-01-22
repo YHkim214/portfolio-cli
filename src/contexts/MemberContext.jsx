@@ -1,6 +1,6 @@
 import { createContext, useState } from "react";
 import { JOIN_MEMBER_API, LOGIN_MEMBER_API, GET_MEMBER_INFO_API,} from "../common/constants/api";
-import axiosWrapper from "../common/config/axiosConfig";
+import { axiosWrapper, axiosWrapperAuth } from "../common/config/axiosConfig";
 
 export const MemberContext = createContext({
     isLoggedIn: false,
@@ -40,7 +40,7 @@ export const MemberContextProvider = ({children}) => {
             }
         })
         .then(response => response)
-        .catch(error => error);
+        .catch(error => Promise.reject(error));
 
         return result;
     }
@@ -49,7 +49,6 @@ export const MemberContextProvider = ({children}) => {
 
         const result = await axiosWrapper.post(LOGIN_MEMBER_API, values)
         .then((response) => {
-            console.log(11);
             localStorage.clear();
             localStorage.setItem('tokenType', response.data.data.tokenType);
             localStorage.setItem('accessToken', response.data.data.accessToken);
@@ -59,7 +58,7 @@ export const MemberContextProvider = ({children}) => {
 
             return response;
         })
-        .catch(error => error)
+        .catch(error => Promise.reject(error))
 
         return result;
     }
@@ -74,16 +73,7 @@ export const MemberContextProvider = ({children}) => {
     }
 
     const getMemberInfoHandler = async() => {
-        let accessToken = localStorage.getItem('accessToken');
-        let tokenType = localStorage.getItem('tokenType');
-        let refreshToken = localStorage.getItem('refreshToken');
-
-        const result = await axiosWrapper.get(GET_MEMBER_INFO_API, {
-            headers: {
-                'Authorization': `${tokenType} ${accessToken}`,
-                'Refresh-Token': `${tokenType} ${refreshToken}`
-            }
-        })
+        const result = await axiosWrapperAuth.get(GET_MEMBER_INFO_API)
         .then((response) => {
             let data = response.data.data;
             setMemberInfo({
@@ -95,9 +85,7 @@ export const MemberContextProvider = ({children}) => {
 
             return response;
         })
-        .catch((error) => {
-            return error;
-        })
+        .catch((error) => Promise.reject(error))
 
         return result;
     }

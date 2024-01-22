@@ -1,11 +1,15 @@
 import './App.css';
 import Layout from './components/Layout';
+import GlobalStyle from './components/styled/global.styled';
 
 function App() {
   return (
-      <div className="App">
+    <>
+      <GlobalStyle/>
+      <div className="App" style={{display:"flex"}}>
         <Layout/>
       </div>
+    </>
   );
 }
 

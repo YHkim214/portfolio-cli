@@ -1,6 +1,10 @@
+import StyledFooter from "./styled/footer.styled";
+
 function Footer() {
     return(
-        <h1>This is footer</h1>
+        <StyledFooter>
+            <span>holostats</span>
+        </StyledFooter>
     );
 }
 

@@ -1,6 +1,11 @@
 import axios from "axios";
 import { API_HOST, REFRESH_API } from "../constants/api";
 
+const axiosWrapperAuth = axios.create({
+    baseURL: API_HOST,
+    timeout: 30000
+})
+
 const axiosWrapper = axios.create({
     baseURL: API_HOST,
     timeout: 30000
@@ -22,14 +27,12 @@ const refresh = async () => {
 
         return response;
     })
-    .catch((error) => {
-        return error;
-    })
+    .catch((error) => Promise.reject(error))
 
     return result;
 }
 
-axiosWrapper.interceptors.request.use(
+axiosWrapperAuth.interceptors.request.use(
     (config) => {
         let accessToken = localStorage.getItem('accessToken');
         let tokenType = localStorage.getItem('tokenType');
@@ -42,7 +45,7 @@ axiosWrapper.interceptors.request.use(
     }
 );
 
-axiosWrapper.interceptors.response.use(
+axiosWrapperAuth.interceptors.response.use(
     (response) => {
         return response;
     },
@@ -65,4 +68,4 @@ axiosWrapper.interceptors.response.use(
     }
 );
 
-export default axiosWrapper;
+export {axiosWrapperAuth, axiosWrapper};
