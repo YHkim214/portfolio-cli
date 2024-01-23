@@ -11,6 +11,8 @@ const StyledFooter = styled.div`
     span{
         color: #caccd1;
     }
+
+    z-index: 999;
 `;
 
 export default StyledFooter;

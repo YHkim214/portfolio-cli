@@ -10,6 +10,8 @@ const StyledHeader = styled.div`
     display: flex;
 
     background-color: #0099e5;
+
+    z-index: 999;
 `
 
 const StyledNavigation = styled.div`
