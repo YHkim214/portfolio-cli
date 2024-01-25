@@ -2,17 +2,17 @@ import {styled, css} from "styled-components";
 
 const StyledButton = styled.button`
     display: inline-block;
+    width: ${(props) => props.width || "120px"};
+    line-height: ${(props) => props.height || "40px"};
+    background-color: ${(props) => props.$background || "#0099e5"};
+    color: ${(props) => props.$color || "white"};
     border-radius: 5px;
     border: 0;
-    line-height: 40px;
     font-size: 15px;
-    background-color: #0099e5;
-    color: white;
-
-    width: ${(props) => props.width || "120px"};
+    
 
     &:hover {
-        background-color: #006be5;
+        filter: brightness(85%);
         cursor: pointer;
     }
 

@@ -60,7 +60,8 @@ axiosWrapperAuth.interceptors.response.use(
                 'Authorization': `${tokenType} ${accessToken}`
             };
 
-            const response = await axios.request(error.config);
+            const response = await axios.request(error.config)
+            response.catch(error => Promise.reject(error))
 
             return response;
         }

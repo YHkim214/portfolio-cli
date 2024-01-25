@@ -12,6 +12,8 @@ const StyledHeader = styled.div`
     background-color: #0099e5;
 
     z-index: 999;
+
+    box-shadow: 0 0 2px #000000;
 `
 
 const StyledNavigation = styled.div`
@@ -28,7 +30,8 @@ const StyledNavigation = styled.div`
     }
     
     li {
-        margin-right: 20px;
+        margin-right: 10px;
+        color: #FAFAFA;
     }
 `
 

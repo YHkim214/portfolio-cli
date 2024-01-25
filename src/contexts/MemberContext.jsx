@@ -1,6 +1,6 @@
-import { createContext, useState } from "react";
-import { JOIN_MEMBER_API, LOGIN_MEMBER_API, GET_MEMBER_INFO_API,} from "../common/constants/api";
-import { axiosWrapper, axiosWrapperAuth } from "../common/config/axiosConfig";
+import { createContext, useEffect, useState } from "react";
+import { JOIN_MEMBER_API, LOGIN_MEMBER_API, GET_MEMBER_INFO_API, HOST} from "../common/constants/api";
+import { axiosWrapper, axiosWrapperAuth } from "../common/configs/axiosConfig";
 
 export const MemberContext = createContext({
     isLoggedIn: false,
@@ -24,6 +24,28 @@ export const MemberContextProvider = ({children}) => {
         memberNickName:'',
         memberThumbnailFileUrl:''
     });
+
+    //최초진입 데이터 처리
+    useEffect(() => {
+        const accessToken = localStorage.getItem('accessToken');
+
+        const _memberName = localStorage.getItem('memberName');
+        const _memberNickname = localStorage.getItem('memberNickname');
+        const _memberId = localStorage.getItem('memberId');
+        const _memberThumbnailFileUrl =localStorage.getItem('memberThumbnailFileUrl');
+
+        if(accessToken) {
+            if(!isLoggedIn) {
+                setIsLoggedIn(true);
+                setMemberInfo({
+                    memberName: _memberName,
+                    memberNickName: _memberNickname,
+                    memberId: _memberId,
+                    memberThumbnailFileUrl: _memberThumbnailFileUrl
+                })
+            }      
+        }
+    },[])
 
     const registerHandler = async (values) => {
         const formData = new FormData();
@@ -68,6 +90,11 @@ export const MemberContextProvider = ({children}) => {
         localStorage.removeItem('tokenType');
         localStorage.removeItem('refreshToken');
 
+        localStorage.removeItem('memberName');
+        localStorage.removeItem('memberNickname');
+        localStorage.removeItem('memberId');
+        localStorage.removeItem('memberThumbnailFileUrl');
+
         setMemberInfo({});
         setIsLoggedIn(false);
     }
@@ -80,8 +107,13 @@ export const MemberContextProvider = ({children}) => {
                 memberName: data.memberName,
                 memberNickName: data.memberNickName,
                 memberId: data.memberId,
-                memberThumbnailFileUrl: data.memberThumbnailFileUrl
+                memberThumbnailFileUrl: HOST + data.memberThumbnailFileUrl
             });
+
+            localStorage.setItem('memberName', data.memberName);
+            localStorage.setItem('memberNickname', data.memberNickName);
+            localStorage.setItem('memberId', data.memberId);
+            localStorage.setItem('memberThumbnailFileUrl', HOST + data.memberThumbnailFileUrl);
 
             return response;
         })
