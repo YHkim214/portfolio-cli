@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { COLORS } from "../../common/constants/color";
 
 const StyledHeader = styled.div`
     position: fixed;
@@ -9,16 +10,17 @@ const StyledHeader = styled.div`
 
     display: flex;
 
-    background-color: #0099e5;
+    background-color: ${COLORS.BLUE};
 
     z-index: 999;
 
-    box-shadow: 0 0 2px #000000;
+    box-shadow: 0 0 2px ${COLORS.BLACK};
 `
 
 const StyledNavigation = styled.div`
-    width:80%;
+    width:calc(80% - 20px);
     height:100%;
+    margin-right: 20px;
 
     ul{
         display: flex;
@@ -31,12 +33,13 @@ const StyledNavigation = styled.div`
     
     li {
         margin-right: 10px;
-        color: #FAFAFA;
+        color: ${COLORS.WHITE};
     }
 `
 
 const StyledLogo = styled.div`
-    width:20%;
+    width:calc(20% - 20px);
+    margin-left: 20px;
     height:100%;
     display: flex;
     align-items:center;

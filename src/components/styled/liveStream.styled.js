@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { COLORS } from "../../common/constants/color";
 
 const StyledLiveStreamList = styled.div`
     width: 100%;
@@ -26,7 +27,7 @@ const StyledLiveStreamList = styled.div`
         width: 100%;
         min-height: 500px;
         border-radius: 20px;
-        background-color: #f1f1f1;
+        background-color: ${COLORS.GRAY};
         display: flex;
     }
 
@@ -35,7 +36,7 @@ const StyledLiveStreamList = styled.div`
         display: inline-block;
         align-self: center;
         font-size: 3rem;
-        color: #6a737b;
+        color: ${COLORS.STRONG_GRAY};
     }
 `
 
@@ -44,9 +45,21 @@ const StyledLiveStreamListItem = styled.div`
     display: flex;
     flex-direction: column;
     aspect-ratio: 20/23;
-    background-color: #f1f1f1;
+    background-color: ${COLORS.GRAY};
     border-radius: 10px;
     margin: 5px 5px 5px 5px;
+
+    @media (max-width: 960px) {
+        width: calc(50% - 10px);
+    }
+
+    @media (min-width: 960px) {
+        width: calc(33% - 10px);
+    }
+
+    @media (min-width: 1264px) {
+        width: calc(25% - 10px);
+    }
 
     .ls-thumbnail {
         width: calc(100% - 10px);
@@ -120,7 +133,8 @@ const StyledLiveStreamListItem = styled.div`
 
     .ls-info .ls-detail .ls-channel-name > a {
         text-decoration: none;
-        color: #0099e5;
+        color: ${COLORS.BLUE};
+        cursor: pointer;
     }
 
     .ls-info .ls-detail .ls-start {

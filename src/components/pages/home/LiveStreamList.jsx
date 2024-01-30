@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import LiveStreamListItem from "./LiveStreamListItem";
-import { StyledLiveStreamList } from "./styled/liveStream.styled";
-import { axiosWrapper } from "../common/configs/axiosConfig";
-import { GET_LIVE_STREAM_LIST } from "../common/constants/api";
-import { getBeforeDayDateString, getNextDayDateString, getTodayDateString } from "../common/utils/dateUtil";
+import { StyledLiveStreamList } from "../../styled/liveStream.styled";
+import { axiosWrapper } from "../../../common/configs/axiosConfig";
+import { GET_LIVE_STREAM_LIST } from "../../../common/constants/api";
+import { getBeforeDayDateString, getNextDayDateString, getTodayDateString } from "../../../common/utils/dateUtil";
 
 const LiveStreamList = () => {
     const [liveStreamList, setLiveStreamList] = useState([]);

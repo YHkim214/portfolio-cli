@@ -57,15 +57,16 @@ axiosWrapperAuth.interceptors.response.use(
             let tokenType = localStorage.getItem('tokenType');
        
             error.config.headers = {
-                'Authorization': `${tokenType} ${accessToken}`
+                'Authorization': `${tokenType} ${accessToken}`,
+                'Content-Type': 'application/json'
             };
 
             const response = await axios.request(error.config)
-            response.catch(error => Promise.reject(error))
 
             return response;
+        } else {
+            return Promise.reject(error);
         }
-        return Promise.reject(error);
     }
 );
 

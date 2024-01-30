@@ -1,10 +1,11 @@
-import { Field, Formik, Form } from "formik";
+import { Formik } from "formik";
 import * as Yup from 'yup';
 import { useContext } from "react";
 import { MemberContext } from "../contexts/MemberContext";
 import { useNavigate } from "react-router-dom";
-import FormStyle from "../components/styled/form.styled";
-import Button from "../components/Button";
+import Button from "../components/common/Button";
+import InputGroup from "../components/common/InputGroup";
+import StyledForm from "../components/common/StyledForm";
 
 function LoginPage() {
 
@@ -33,6 +34,21 @@ function LoginPage() {
         .required('비밀번호를 입력해 주세요')
     });
 
+    const formInfo = [
+        {
+            name: "memberName",
+            title: "아이디",
+            type: "text",
+            placeholder: "아이디를 입력해 주세요"
+        },
+        {
+            name: "memberPassword",
+            title: "비밀번호",
+            type: "password",
+            placeholder: "비밀번호를 입력해 주세요"
+        }
+    ]
+
     return(
             <Formik
                 initialValues={{
@@ -43,22 +59,10 @@ function LoginPage() {
                 validationSchema={LoginSchema}
             >
                {({errors, touched, isValid, dirty}) => (
-                    <FormStyle>
-                        <h1>로그인</h1>
-                        <Form className="form-body">
-                            <div className="input-group">
-                                <label htmlFor="memberName">아이디</label>
-                                <Field id="memberName" name="memberName" type="text" placeholder="아이디를 입력해 주세요"/>
-                                {errors.memberName && touched.memberName && <span>{errors.memberName}</span>}
-                            </div>
-                            <div className="input-group">
-                                <label htmlFor="memberPassword">비밀번호</label>
-                                <Field id="memberPassword" name="memberPassword" type="password" placeholder="비밀번호를 입력해 주세요"/>
-                                {errors.memberPassword && touched.memberPassword && <span>{errors.memberPassword}</span>}
-                            </div>
-                            <Button width="100%" className="submit-btn" disabled={!(isValid && dirty)} type="submit">로그인</Button>
-                        </Form>
-                    </FormStyle>
+                    <StyledForm className="form-body" title="로그인">
+                        {formInfo.map(info => <InputGroup errors={errors} touched={touched} {...info}/>)}
+                        <Button width="100%" className="submit-btn" disabled={!(isValid && dirty)} type="submit">로그인</Button>
+                    </StyledForm>
                 )}
             </Formik>
     )

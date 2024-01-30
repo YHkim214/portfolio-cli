@@ -1,5 +1,5 @@
 import { createContext, useEffect, useState } from "react";
-import { JOIN_MEMBER_API, LOGIN_MEMBER_API, GET_MEMBER_INFO_API, HOST} from "../common/constants/api";
+import { JOIN_MEMBER_API, LOGIN_MEMBER_API, GET_MEMBER_INFO_API, HOST, CHANGE_NICKNAME_API, CHANGE_PASSWORD_API} from "../common/constants/api";
 import { axiosWrapper, axiosWrapperAuth } from "../common/configs/axiosConfig";
 
 export const MemberContext = createContext({
@@ -13,7 +13,9 @@ export const MemberContext = createContext({
     register: (values) => {},
     login: (values) => {},
     logout: () => {},
-    getMemberInfo: () => {}
+    getMemberInfo: () => {},
+    changeNickname: () => {},
+    changePassword: () => {}
 });
 
 export const MemberContextProvider = ({children}) => {
@@ -117,7 +119,31 @@ export const MemberContextProvider = ({children}) => {
 
             return response;
         })
-        .catch((error) => Promise.reject(error))
+        .catch((error) => Promise.reject(error));
+
+        return result;
+    }
+
+    const changeNicknameHandler = async (values) => {
+        const result = axiosWrapperAuth.post(CHANGE_NICKNAME_API, values)
+        .then((response) => {
+            let data = response.data.data;
+            setMemberInfo({
+                ...memberInfo,
+                memberNickName: data.memberNickname
+            })
+        })
+        .catch((error) => Promise.reject(error));
+
+        return result;
+    }
+
+    const changePasswordHandler = async (values) => {
+        const result = await axiosWrapperAuth.post(CHANGE_PASSWORD_API, values)
+        .then((response) => {
+            
+        })
+        .catch((error) => Promise.reject(error));
 
         return result;
     }
@@ -128,7 +154,9 @@ export const MemberContextProvider = ({children}) => {
         register: registerHandler,
         login: loginHandler,
         logout: logoutHandler,
-        getMemberInfo: getMemberInfoHandler
+        getMemberInfo: getMemberInfoHandler,
+        changeNickname: changeNicknameHandler,
+        changePassword: changePasswordHandler
     }
 
     return(

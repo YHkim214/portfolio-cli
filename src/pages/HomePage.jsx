@@ -1,4 +1,4 @@
-import LiveStreamList from "../components/LiveStreamList";
+import LiveStreamList from "../components/pages/home/LiveStreamList";
 
 function HomePage() {
     return(

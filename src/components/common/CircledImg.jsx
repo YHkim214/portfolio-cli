@@ -1,4 +1,4 @@
-import StyledCircledImg from "./styled/circledImg.styled";
+import StyledCircledImg from "../styled/circledImg.styled";
 import React from "react";
 
 const CircledImg = React.forwardRef((props, ref) => {

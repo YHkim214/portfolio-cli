@@ -1,6 +1,6 @@
-import { StyledLiveStreamListItem } from "./styled/liveStream.styled";
-import CircledImg from "./CircledImg";
-import ViewerBadge from "./ViewerBadge";
+import { StyledLiveStreamListItem } from "../../styled/liveStream.styled";
+import CircledImg from "../../common/CircledImg";
+import ViewerBadge from "../../layout/ViewerBadge";
 
 const LiveStreamListItem = ({...props}) => {
 

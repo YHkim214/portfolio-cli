@@ -1,6 +1,6 @@
-import StyledViewerBadge from "./styled/viewerBadge.styled";
-import { formatNumber } from "../common/utils/stringUtil";
-import { LIVE_STREAMING_LIVE, LIVE_STREAMING_UPCOMING } from "../common/constants/common";
+import StyledViewerBadge from "../styled/viewerBadge.styled";
+import { formatNumber } from "../../common/utils/stringUtil";
+import { LIVE_STREAMING_LIVE, LIVE_STREAMING_UPCOMING } from "../../common/constants/common";
 
 const ViewerBadge = ({...props}) => {
     if(props.status === LIVE_STREAMING_UPCOMING) {

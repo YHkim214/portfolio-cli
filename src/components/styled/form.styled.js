@@ -1,7 +1,8 @@
 import styled from "styled-components";
+import { COLORS } from "../../common/constants/color";
 
 const FormStyle = styled.div`
-    width: 30%;
+    width: 40%;
     border: 0;
     border-radius: 10px;
     margin: 30px auto;
@@ -16,7 +17,7 @@ const FormStyle = styled.div`
 
     .form-body{
         padding: 25px;
-        border: 1px solid #9f9fa3;
+        border: 1px solid ${COLORS.BORDER};
         border-radius: 5px;
     }
 
@@ -45,7 +46,7 @@ const FormStyle = styled.div`
         border: 0;
         border-radius: 5px;
         padding: 10px;
-        background-color: #f3f4f7;
+        background-color: ${COLORS.GRAY};
         align-self: center;
         margin-bottom: 10px;
     }

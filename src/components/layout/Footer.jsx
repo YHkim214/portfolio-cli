@@ -1,4 +1,4 @@
-import StyledFooter from "./styled/footer.styled";
+import StyledFooter from "../styled/footer.styled";
 
 function Footer() {
     return(
