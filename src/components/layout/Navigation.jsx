@@ -1,5 +1,6 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import { MemberContext } from "../../contexts/MemberContext";
+import { GlobalContext } from "../../contexts/GlobalContext";
 import { useNavigate } from "react-router-dom";
 import { StyledNavigation } from "../styled/header.styled";
 import { StyledNavItem } from "../styled/navlink.styled";
@@ -9,12 +10,12 @@ import { JOIN, LOGIN } from "../../common/constants/navigation";
 import { CHANGE_NICKNAME, CHANGE_PASSWORD } from "../../common/constants/navigation";
 
 const Navigation = () => {
+    const globalContext = useContext(GlobalContext);
     const memberContext = useContext(MemberContext);
     const thumbnailRef = useRef();
     const navigate = useNavigate();
 
     const [position, setPosition] = useState({x: "", y: ""});
-    const [isOpened, setIsOpened] = useState(false);
 
     const toggleMemberMenu = () => {
         let boundingClientRect = thumbnailRef.current.getBoundingClientRect();
@@ -22,12 +23,12 @@ const Navigation = () => {
             x: `${Math.floor(boundingClientRect.x)}px`,
             y: `${Math.floor(boundingClientRect.y) + 50}px`
         });
-        isOpened ? setIsOpened(false) : setIsOpened(true);
+        globalContext.isMemberMenuOpened ? globalContext.setIsMemberMenuOpened(false) : globalContext.setIsMemberMenuOpened(true);
     }
 
     useEffect(() => {
         function handleResize() {
-            if(isOpened) setIsOpened(false);
+            if(globalContext.isMemberMenuOpened) globalContext.setIsMemberMenuOpened(false);
         }
 
         window.addEventListener("resize", handleResize);
@@ -38,24 +39,24 @@ const Navigation = () => {
     const handleLogout = () => {
         alert('로그아웃 성공!');
         memberContext.logout();
-        setIsOpened(false);
+        globalContext.setIsMemberMenuOpened(false);
         navigate('/');
     } 
 
     const handleChangeNickname = () => {
-        setIsOpened(false);
+        globalContext.setIsMemberMenuOpened(false);
         navigate(CHANGE_NICKNAME);
     }
 
     const handleChangePassword = () => {
-        setIsOpened(false);
+        globalContext.setIsMemberMenuOpened(false);
         navigate(CHANGE_PASSWORD);
     }
 
     const memberMenuProps = {
         x: position.x,
         y: position.y,
-        $isOpened: isOpened,
+        $isOpened: globalContext.isMemberMenuOpened,
         handleLogout: handleLogout,
         handleChangeNickname: handleChangeNickname,
         handleChangePassword: handleChangePassword

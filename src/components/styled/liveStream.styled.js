@@ -49,6 +49,12 @@ const StyledLiveStreamListItem = styled.div`
     border-radius: 10px;
     margin: 5px 5px 5px 5px;
 
+    cursor: pointer;
+
+    &:hover{
+        filter:brightness(90%);
+    }
+
     @media (max-width: 960px) {
         width: calc(50% - 10px);
     }

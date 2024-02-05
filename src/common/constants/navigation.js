@@ -6,4 +6,6 @@ const CHANGE_NICKNAME = "/member/changeNickname";
 
 const LOGIN = "/login"
 
-export{HOME, JOIN, CHANGE_NICKNAME, CHANGE_PASSWORD, LOGIN}
+const BBS = "/bbs"
+
+export{HOME, JOIN, CHANGE_NICKNAME, CHANGE_PASSWORD, LOGIN, BBS}

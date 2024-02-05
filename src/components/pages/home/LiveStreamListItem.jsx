@@ -1,11 +1,19 @@
 import { StyledLiveStreamListItem } from "../../styled/liveStream.styled";
 import CircledImg from "../../common/CircledImg";
 import ViewerBadge from "../../layout/ViewerBadge";
+import { useNavigate } from "react-router-dom";
+import { BBS } from "../../../common/constants/navigation";
 
 const LiveStreamListItem = ({...props}) => {
 
+    const navigate = useNavigate();
+
+    const handleClick = () => {
+        navigate(`${BBS}/${props.lsId}`);
+    }
+
     return (
-        <StyledLiveStreamListItem>
+        <StyledLiveStreamListItem onClick={handleClick}> 
             <div className="ls-thumbnail">
                 <div className="ls-thumbnail-image">
                     <img src={props.lsYtThumbnail} alt=""/>
@@ -29,7 +37,6 @@ const LiveStreamListItem = ({...props}) => {
             </div>
         </StyledLiveStreamListItem>
     )
-
 };
 
 export default LiveStreamListItem;
