@@ -3,6 +3,7 @@ import CircledImg from "../../common/CircledImg";
 import ViewerBadge from "../../layout/ViewerBadge";
 import { useNavigate } from "react-router-dom";
 import { BBS } from "../../../common/constants/navigation";
+import { getDiffString } from "../../../common/utils/dateUtil";
 
 const LiveStreamListItem = ({...props}) => {
 
@@ -27,14 +28,14 @@ const LiveStreamListItem = ({...props}) => {
                 <div className="ls-detail">
                     <div className="ls-name" title={props.lsName}>{props.lsName.trim()}</div>
                     <div className="ls-channel-name"><a href={`https://www.youtube.com/channel/${props.channelYtId}`} target="blank">{props.channelName}</a></div>
-                    <div className="ls-start">{props.startTime}</div>
+                    <div className="ls-start">{getDiffString(props.startTime)}</div>
                 </div>
             </div>
-            <div className="ls-statistics">
+            {/* <div className="ls-statistics">
                 <div className="ls-max">최대: {props.maxViewer}</div>
                 <div className="ls-avg">평균:{props.avgViewer}</div>
                 <div className="ls-good">좋아요: {props.goodCnt}</div>
-            </div>
+            </div> */}
         </StyledLiveStreamListItem>
     )
 };

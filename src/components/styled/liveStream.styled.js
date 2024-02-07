@@ -44,7 +44,6 @@ const StyledLiveStreamListItem = styled.div`
     width: calc(20% - 10px);
     display: flex;
     flex-direction: column;
-    aspect-ratio: 20/23;
     background-color: ${COLORS.GRAY};
     border-radius: 10px;
     margin: 5px 5px 5px 5px;
@@ -69,20 +68,19 @@ const StyledLiveStreamListItem = styled.div`
 
     .ls-thumbnail {
         width: calc(100% - 10px);
-        height: calc(60% - 10px);
         padding: 5px;
         position: relative;
     }
 
     .ls-thumbnail .ls-thumbnail-image {
         width: 100%;
-        height: 100%;
     }
 
     .ls-thumbnail .ls-thumbnail-image img {
         width: 100%;
-        height: 100%;
+        aspect-ratio: 283/159;
         object-fit: fill;
+        overflow: hidden;
         border-radius: 10px;
     }
 
@@ -95,8 +93,6 @@ const StyledLiveStreamListItem = styled.div`
 
     .ls-info {
         width: calc(100% - 20px);
-        height: 25%;
-        min-height: 90px;
         padding: 0 10px 0;
         display: flex;
         flex-direction: row;
@@ -109,9 +105,9 @@ const StyledLiveStreamListItem = styled.div`
     }
 
     .ls-info .ls-detail{
-        width: calc(100% - 60px);
-        height: calc(100% - 10px);
+        width: calc(100% - 70px);
         padding: 5px;
+        margin-left: 10px;
         display: flex;
         flex-direction: column;
         flex-wrap: wrap;
@@ -125,16 +121,17 @@ const StyledLiveStreamListItem = styled.div`
         overflow: hidden; 
         text-overflow: ellipsis;
         text-align: start;
+        margin-bottom: 5px;
     }
 
     .ls-info .ls-detail .ls-channel-name {
-        height: 25%;
         display: -webkit-box; 
         -webkit-box-orient: vertical; 
         -webkit-line-clamp: 1; 
         overflow: hidden; 
         text-overflow: ellipsis;
         text-align: start;
+        margin-bottom: 5px;
     }
 
     .ls-info .ls-detail .ls-channel-name > a {
@@ -144,16 +141,18 @@ const StyledLiveStreamListItem = styled.div`
     }
 
     .ls-info .ls-detail .ls-start {
-        height: 25%;
         display: -webkit-box; 
         -webkit-box-orient: vertical; 
         -webkit-line-clamp: 1; 
         overflow: hidden; 
+        font-size: 0.8rem;
+        color: ${COLORS.STRONG_GRAY};
         text-overflow: ellipsis;
         text-align: start;
+        margin-bottom: 5px;
     }
 
-    .ls-statistics {
+    /* .ls-statistics {
         display: flex;
         flex-direction: row;
         flex-wrap: wrap;
@@ -164,7 +163,7 @@ const StyledLiveStreamListItem = styled.div`
         width: calc(33% - 10px);
         min-height: 1rem;
         padding: 5px;
-    }
+    } */
 `;
 
 export {StyledLiveStreamList, StyledLiveStreamListItem};

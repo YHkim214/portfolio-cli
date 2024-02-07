@@ -6,6 +6,7 @@ export const LOGIN_MEMBER_API = "/auth/login";
 export const GET_MEMBER_INFO_API = "/member/getMemberInfo";
 export const REFRESH_API= "/auth/refresh";
 export const GET_LIVE_STREAM_LIST = "/liveStream/list";
+export const GET_LIVE_STREAM = "/liveStream/"
 export const CHANGE_NICKNAME_API = "/member/changeNickname";
 export const CHANGE_PASSWORD_API = "/member/changePassword"; 
 

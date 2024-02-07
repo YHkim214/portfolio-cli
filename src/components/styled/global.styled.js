@@ -7,6 +7,7 @@ const GlobalStyle = createGlobalStyle`
         padding: 0;
         background-color: ${COLORS.WHITE};
     }
+
 `
 
 export default GlobalStyle;
