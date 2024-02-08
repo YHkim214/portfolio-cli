@@ -3,11 +3,13 @@ import StyledBbs from "../components/styled/bbs.styled";
 import { LiveStreamContext } from "../contexts/LiveStreamContext"
 import { useContext, useEffect, useState } from "react";
 import YoutubeIframe from "../components/pages/bbs/YoutubeIframe";
-import LiveStreamInfo from "../components/pages/bbs/LivsStreamInfo";
+import LiveStreamInfo from "../components/pages/bbs/LiveStreamInfo";
+import BbsForm from "../components/pages/bbs/BbsForm";
 
 
 const BbsPage = ({children, ...props}) => {
     const [liveStreamList, setLiveStreamList] = useState([]);
+    const [parentId, setParentId] = useState(null);
     const liveStreamContext = useContext(LiveStreamContext);
     let {id} = useParams();
 
@@ -23,8 +25,31 @@ const BbsPage = ({children, ...props}) => {
     }
 
     useEffect( () => {
-        getLiveStream(liveStreamIdList);
+        getLiveStream();
+
+        // const timer = setInterval(() => {
+        //     getLiveStream(liveStreamIdList);
+        // }, 60000)
+
+        // return () => {
+        //     clearInterval(timer);
+        // };
     }, [])
+
+    const handleRender = () => {
+        if(liveStreamList.length > 0) {
+            return (
+                <><YoutubeIframe liveStream={liveStreamList[0]}/>
+                <LiveStreamInfo liveStream={liveStreamList[0]}/></>
+            )
+        } else {
+            return (
+                <div className="ls-prerender">
+                    <span>방송 정보를 불러오고 있습니다.</span>
+                </div>
+            )
+        }
+    }
 
     const getLiveStream = async () => {
         const response = await liveStreamContext.getLiveStreamById(liveStreamIdList[0]);
@@ -34,12 +59,14 @@ const BbsPage = ({children, ...props}) => {
     return (
         <StyledBbs>
             <div className="ls-area">
-                {liveStreamList.length > 0 && 
-                <><YoutubeIframe liveStream={liveStreamList[0]}/>
-                <LiveStreamInfo liveStream={liveStreamList[0]}/></>
-                }
+                {handleRender()}
             </div>
-            <div className="bbs-area"></div>
+            <div className="bbs-area">
+                <div className="bbs-list" setParentId={setParentId}></div>
+                <div className="bbs-form">
+                    <BbsForm lsId={liveStreamIdList[0]} parentId={parentId}/>
+                </div>
+            </div>
         </StyledBbs>
     )
 }

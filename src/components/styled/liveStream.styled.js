@@ -151,19 +151,7 @@ const StyledLiveStreamListItem = styled.div`
         text-align: start;
         margin-bottom: 5px;
     }
-
-    /* .ls-statistics {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-    }
-
-    .ls-statistics > div{
-        display: inline-block;
-        width: calc(33% - 10px);
-        min-height: 1rem;
-        padding: 5px;
-    } */
+    
 `;
 
 export {StyledLiveStreamList, StyledLiveStreamListItem};

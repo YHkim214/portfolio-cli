@@ -4,7 +4,7 @@ import { StyledNavTitle } from "../styled/navlink.styled";
 const Logo = () => {
     return(
         <StyledLogo>
-            <StyledNavTitle to="/">HoloStats</StyledNavTitle>
+            <StyledNavTitle to="/">HoloBoard</StyledNavTitle>
         </StyledLogo>
     );
 }

@@ -3,7 +3,7 @@ import StyledFooter from "../styled/footer.styled";
 function Footer() {
     return(
         <StyledFooter>
-            <span>holostats</span>
+            <span>holoboard</span>
         </StyledFooter>
     );
 }
