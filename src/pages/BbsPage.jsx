@@ -5,12 +5,20 @@ import { useContext, useEffect, useState } from "react";
 import YoutubeIframe from "../components/pages/bbs/YoutubeIframe";
 import LiveStreamInfo from "../components/pages/bbs/LiveStreamInfo";
 import BbsForm from "../components/pages/bbs/BbsForm";
+import { MemberContext } from "../contexts/MemberContext";
 
 
 const BbsPage = ({children, ...props}) => {
-    const [liveStreamList, setLiveStreamList] = useState([]);
-    const [parentId, setParentId] = useState(null);
     const liveStreamContext = useContext(LiveStreamContext);
+    const memberContext = useContext(MemberContext);
+    const [liveStreamList, setLiveStreamList] = useState([]);
+    const [bbsList, setBbsList] = useState([]);
+    const [pageInfo, setPageInfo] = useState({
+        page: 1,
+        size: 20,
+        memberId: memberContext.getMemberInfo?.memberId
+    });
+    const [parentId, setParentId] = useState(null);
     let {id} = useParams();
 
     let liveStreamIdList = [];
@@ -26,7 +34,7 @@ const BbsPage = ({children, ...props}) => {
 
     useEffect( () => {
         getLiveStream();
-
+        getBbsList();
         // const timer = setInterval(() => {
         //     getLiveStream(liveStreamIdList);
         // }, 60000)
@@ -55,6 +63,15 @@ const BbsPage = ({children, ...props}) => {
         const response = await liveStreamContext.getLiveStreamById(liveStreamIdList[0]);
         setLiveStreamList([...liveStreamList, response]);
     }
+
+    const getBbsList = async (isClear) => { 
+        const response = await liveStreamContext.getBbsListById(pageInfo, liveStreamIdList[0]);
+        if(isClear) {
+            setBbsList([...response.bbsList])
+        } else {
+            setBbsList([...bbsList, ...response.bbsList]);
+        }
+    }
     
     return (
         <StyledBbs>
@@ -62,9 +79,11 @@ const BbsPage = ({children, ...props}) => {
                 {handleRender()}
             </div>
             <div className="bbs-area">
-                <div className="bbs-list" setParentId={setParentId}></div>
+                <div className="bbs-list" setParentId={setParentId}>
+                    {bbsList.map((bbs) => <div>{bbs.bbsContent}</div>)}
+                </div>
                 <div className="bbs-form">
-                    <BbsForm lsId={liveStreamIdList[0]} parentId={parentId}/>
+                    <BbsForm lsId={liveStreamIdList[0]} parentId={parentId} getBbsList={getBbsList}/>
                 </div>
             </div>
         </StyledBbs>

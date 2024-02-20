@@ -16,6 +16,7 @@ const BbsForm = ({...props}) => {
         .then((response) => {
             action.setFieldValue("bbsContent", "");
             action.setSubmitting(false);
+            props.getBbsList(true);
         })
         .catch((error) => {
             alert(error);

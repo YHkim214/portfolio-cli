@@ -80,7 +80,7 @@ const StyledBbs = styled.div`
 
     .bbs-area {
         width: 20%;
-        background-color: yellow;
+        background-color: ${COLORS.GRAY};
         display: flex;
         flex-direction: column;
     }
@@ -88,7 +88,7 @@ const StyledBbs = styled.div`
     .bbs-list{
         width: 100%;
         height:90%;
-        background-color: blue;
+        background-color: ${COLORS.GRAY};
     }
 
     .bbs-form {
