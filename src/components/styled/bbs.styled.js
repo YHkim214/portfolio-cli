@@ -106,18 +106,53 @@ const StyledBbs = styled.div`
         padding: 5px;
     }
 
-    .bbs-form > form > textarea{
+    .bbs-form > form > textarea {
         width: calc(75% - 20px);
         border: none;
         padding: 10px;
         border-radius: 10px;
     }
 
-    .bbs-form > form > button{
+    .bbs-form > form > button {
         width: calc(25% - 5px);
         margin-left: 5px;
     }
 
+    .bbs-item {
+        background-color: ${COLORS.WHITE};
+        border-radius: 5px;
+        margin: 5px 0px 5px;
+        padding: 10px;
+    }
+
+    .bbs-item-info{
+        display: flex;
+        flex-direction: row;
+        margin-bottom: 10px;
+    }
+
+    .bbs-nickname {
+        width: 20%;
+    }
+
+    .bbs-createtime {
+        display: inline-block;
+        text-align: end;
+        width: 80%;
+        color: ${COLORS.STRONG_GRAY};
+        font-size: 0.75rem;
+    }
+
+    .bbs-item-content {
+        text-align:start;
+        font-size: 0.9rem;
+        margin-bottom: 10px;
+    }
+
+    .bbs-item-footer {
+        display: flex;
+        flex-direction: column-reverse;
+    }
 `;
 
 export default StyledBbs;

@@ -44,4 +44,8 @@ const getDiffString = (dateString) => {
     }
 }
 
-export {getTodayDateString, getNextDayDateString, getBeforeDayDateString, getDiffString};
+const formatSqlDate = (sqlDate) => {
+    return moment(sqlDate).utc().format("YYYY-MM-DD HH:mm:ss");
+}
+
+export {getTodayDateString, getNextDayDateString, getBeforeDayDateString, getDiffString, formatSqlDate};

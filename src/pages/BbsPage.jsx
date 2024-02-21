@@ -6,6 +6,7 @@ import YoutubeIframe from "../components/pages/bbs/YoutubeIframe";
 import LiveStreamInfo from "../components/pages/bbs/LiveStreamInfo";
 import BbsForm from "../components/pages/bbs/BbsForm";
 import { MemberContext } from "../contexts/MemberContext";
+import BbsItem from "../components/pages/bbs/BbsItem";
 
 
 const BbsPage = ({children, ...props}) => {
@@ -34,14 +35,7 @@ const BbsPage = ({children, ...props}) => {
 
     useEffect( () => {
         getLiveStream();
-        getBbsList();
-        // const timer = setInterval(() => {
-        //     getLiveStream(liveStreamIdList);
-        // }, 60000)
-
-        // return () => {
-        //     clearInterval(timer);
-        // };
+        getBbsList(true);
     }, [])
 
     const handleRender = () => {
@@ -66,6 +60,7 @@ const BbsPage = ({children, ...props}) => {
 
     const getBbsList = async (isClear) => { 
         const response = await liveStreamContext.getBbsListById(pageInfo, liveStreamIdList[0]);
+        console.log(response);
         if(isClear) {
             setBbsList([...response.bbsList])
         } else {
@@ -80,7 +75,7 @@ const BbsPage = ({children, ...props}) => {
             </div>
             <div className="bbs-area">
                 <div className="bbs-list" setParentId={setParentId}>
-                    {bbsList.map((bbs) => <div>{bbs.bbsContent}</div>)}
+                    {bbsList.map((bbs) =><BbsItem key={bbs.bbsId} item={bbs} getBbsList={getBbsList}/>)}
                 </div>
                 <div className="bbs-form">
                     <BbsForm lsId={liveStreamIdList[0]} parentId={parentId} getBbsList={getBbsList}/>
